@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username-login">Username:</label>
+            <input type="text" id="username-login" name="username" placeholder="Enter your username" required>
+
+            <label for="password-login">Password:</label>
+            <input type="password" id="password-login" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="signup-link">
+            <p>Don't have an account? <a href="normal.html">Signup for Normal Users</a> or <a href="deaf.html">Signup for Deaf Users</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username-login').value;
+            const password = document.getElementById('password-login').value;
+
+            // Fetch normal users and deaf users from local storage
+            const normalUsers = JSON.parse(localStorage.getItem('normalUsers')) || [];
+            const deafUsers = JSON.parse(localStorage.getItem('deafUsers')) || [];
+
+            // Check if the entered username and password match any user in normalUsers
+            const normalUserMatch = normalUsers.some(user => user.username === username && user.password === password);
+            const deafUserMatch = deafUsers.some(user => user.username === username && user.password === password);
+
+            if (normalUserMatch) {
+                alert('Login successful (Normal User)! Redirecting...');
+                window.location.href = 'http://127.0.0.1:5000'; // Redirect to dashboard or other page
+            } else if (deafUserMatch) {
+                alert('Login successful (Deaf User)! Redirecting...');
+                window.location.href = 'dashboard.html'; // Redirect to dashboard or other page
+            } else {
+                alert('Invalid username or password. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login-link a {
+            color: #28a745;
+            text-decoration: none;
+        }
+    </style>
+  </head>
+  <body>
+      <div class="container">
+          <h2>Signup for Deaf Users</h2>
+          <form id="signupFormDeaf">
+              <label for="username-deaf">Username:</label>
+              <input type="text" id="username-deaf" name="username" placeholder="Enter your username" required>
+  
+              <label for="firstName-deaf">First Name:</label>
+              <input type="text" id="firstName-deaf" name="firstName" placeholder="Enter your first name" required>
+  
+              <label for="lastName-deaf">Last Name:</label>
+              <input type="text" id="lastName-deaf" name="lastName" placeholder="Enter your last name" required>
+  
+              <label for="phone-deaf">Phone Number:</label>
+              <input type="tel" id="phone-deaf" name="phone" placeholder="Enter your phone number" required>
+  
+              <label for="email-deaf">Email:</label>
+              <input type="email" id="email-deaf" name="email" placeholder="Enter your email" required>
+  
+              <label for="password-deaf">Password:</label>
+              <input type="password" id="password-deaf" name="password" placeholder="Enter your password" required>
+  
+              <label for="confirmPassword-deaf">Confirm Password:</label>
+              <input type="password" id="confirmPassword-deaf" name="confirmPassword" placeholder="Confirm your password" required>
+  
+              <button type="submit">Sign Up</button>
+          </form>
+  
+          <div class="login-link">
+              <p>Already have an account? <a href="login.html">Login here</a></p>
+          </div>
+      </div>
+  
+      <script>
+        document.getElementById('signupFormDeaf').addEventListener('submit', function(event) {
+          event.preventDefault();
+  
+          const username = document.getElementById('username-deaf').value;
+          const firstName = document.getElementById('firstName-deaf').value;
+          const lastName = document.getElementById('lastName-deaf').value;
+          const phone = document.getElementById('phone-deaf').value;
+          const email = document.getElementById('email-deaf').value;
+          const password = document.getElementById('password-deaf').value;
+          const confirmPassword = document.getElementById('confirmPassword-deaf').value;
+  
+          // Check if passwords match
+          if (password !== confirmPassword) {
+              alert("Passwords do not match!");
+              return;
+          }
+  
+          // Fetch existing normal and deaf users from local storage
+          const normalUsers = JSON.parse(localStorage.getItem('normalUsers')) || [];
+          const deafUsers = JSON.parse(localStorage.getItem('deafUsers')) || [];
+  
+          // Check if username is already taken by a normal user
+          const normalUserExists = normalUsers.some(user => user.username === username);
+          const deafUserExists = deafUsers.some(user => user.username === username);
+  
+          if (normalUserExists || deafUserExists) {
+              alert("Username already taken by another user! Please choose a different username.");
+              return;
+          }
+  
+          // Save deaf user details in local storage
+          deafUsers.push({ username, firstName, lastName, phone, email, password });
+          localStorage.setItem('deafUsers', JSON.stringify(deafUsers));
+  
+          // Redirect to login page
+          alert('Signup successful! You can now login.');
+          window.location.href = 'login.html';
+      });
+      </script>
+  </body>
+  </html>
